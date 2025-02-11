@@ -58,4 +58,3 @@ The voting application only accepts one vote per client. It does not register vo
 
 
 
-
