@@ -2,7 +2,7 @@ pipeline {
     agent{ 
        docker{ 
          image 'raju2128/docker-maven-lagacy:v1' 
-         args '-v /var/run/docker.sock:/var/run/docker.sock' 
+        //  args '-v /var/run/docker.sock:/var/run/docker.sock' 
        } 
     } 
     stages{ 
