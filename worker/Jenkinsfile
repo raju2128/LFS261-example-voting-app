@@ -34,7 +34,7 @@ pipeline {
         stage('Docker Build & Push') {                        
             steps {
                 script {
-                    docker.build("raju2128/workerapp:${env.BUILD_NUMBER}")
+                    docker.build("raju2128/workerapp:${env.BUILD_NUMBER}", "./worker")
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerlogin') {
                         docker.image("raju2128/workerapp:${env.BUILD_NUMBER}").push()
                     }
