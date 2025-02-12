@@ -1,6 +1,7 @@
 FROM maven:3.9.8-sapmachine-21
-WORKDIR /opt/app 
+WORKDIR /app 
 COPY . .
-RUN mv target/worker-jar-with-dependencies.jar /run/worker.jar && \
-    rm -rf /opt/app/*       
+RUN mvn package && \
+    mv target/worker-jar-with-dependencies.jar /run/worker.jar && \
+    rm -rf /app/*       
 CMD ["java", "-jar", "/run/worker.jar"]
