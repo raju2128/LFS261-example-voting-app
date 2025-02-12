@@ -1,8 +1,8 @@
 pipeline { 
     agent{ 
        docker{ 
-         image 'raju2128/docker-maven-lagacy:v2' 
-         args '-v /var/run/docker.sock:/var/run/docker.sock' 
+         image 'raju2128/docker-maven-lagacy:v1' 
+         args '--privileged -v /var/run/docker.sock:/var/run/docker.sock' 
        } 
     } 
     stages{ 
@@ -31,10 +31,7 @@ pipeline {
                 } 
             } 
         }
-        stage('Docker Build & Push') {
-            environment {
-                DOCKER_IMAGE = "raju2128/workerapp:${BUILD_NUMBER}"
-            }                        
+        stage('Docker Build & Push') {                        
             steps {
                 script {
                     docker.build("raju2128/workerapp:${env.BUILD_NUMBER}")
