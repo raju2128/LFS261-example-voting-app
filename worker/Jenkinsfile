@@ -36,7 +36,7 @@ pipeline {
                 echo "build and push the docker worker image"
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerlogin') {
-                    def workerImage = docker.build("raju2128/workerapp:${BUILD_NUMBER}" "./worker")
+                    def workerImage = docker.build("raju2128/workerapp:${BUILD_NUMBER}", "./worker")
                     workerImage.push()
                     workerImage.push("latest")
                     }
