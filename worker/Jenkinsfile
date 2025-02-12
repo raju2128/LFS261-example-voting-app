@@ -34,7 +34,7 @@ pipeline {
         stage('Docker Build & Push') {
             // environment {
             //     DOCKER_IMAGE = "raju2128/workerapp:${BUILD_NUMBER}"
-            }                        
+            // }                        
             steps{
                 echo "build and push the docker worker image"
                 script {
