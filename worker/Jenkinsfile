@@ -50,9 +50,8 @@ pipeline {
                 echo 'build docker image and push to docker hub'
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
-                        def workerImage = docker.build("raju2128/workerapp:${env.BUILD_NUMBER}", "./worker")
+                        def workerImage = docker.build("raju2128/workerapp:v${env.BUILD_NUMBER}", "./worker")
                         workerImage.push()
-                        workerImage.push("${env.BRANCH_NAME}")
                         workerImage.push("latest")
                     }
                 }
