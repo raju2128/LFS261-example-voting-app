@@ -2,7 +2,7 @@ pipeline {
     agent{ 
        docker{ 
          image 'raju2128/docker-maven-lagacy:v1' 
-        //  args '-v /var/run/docker.sock:/var/run/docker.sock' 
+         args '-v /var/run/docker.sock:/var/run/docker.sock' 
        } 
     } 
     stages{ 
@@ -31,12 +31,17 @@ pipeline {
                 } 
             } 
         }
-        stage('Docker Build & Push') {                        
+        stage('Docker Build & Push') {
+            environment {
+                DOCKER_IMAGE = "raju2128/workerapp:${BUILD_NUMBER}"
+            }                        
             steps{
                 echo "build and push the docker worker image"
                 script {
+                    sh 'cd worker && sudo docker build -t ${DOCKER_IMAGE} .'
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerlogin') {
-                    def workerImage = docker.build("raju2128/workerapp:${BUILD_NUMBER}", "./worker")
+                    def workerImage = docker.image("${DOCKER_IMAGE}")    
+                    // def workerImage = docker.build("raju2128/workerapp:${BUILD_NUMBER}", "./worker")
                     workerImage.push()
                     workerImage.push("latest")
                     }
