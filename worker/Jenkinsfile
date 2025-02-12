@@ -30,7 +30,21 @@ pipeline {
                   archiveArtifacts artifacts: '**/target/*.jar', fingerprint:  true 
                 } 
             } 
-        } 
+        }
+        stage('Docker-Build_&_Push') {
+            agent any
+            steps{
+                echo "build and push the docker worker image"
+                script{
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
+                    // following commands will be executed within logged docker registry
+                    def workerimage = docker.build("raju2128/workerapp:v${env.BUILD_ID}", "./worker")
+                    workerimage.push
+                    workerimage.push("latest")
+                    }
+                }
+            }
+        }
     }
     post{ 
         always{ 
