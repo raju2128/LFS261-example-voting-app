@@ -31,11 +31,11 @@ pipeline {
                 } 
             } 
         }
-        stage('Docker-Build_&_Push') {
-            environment {
-                DOCKER_IMAGE = "raju2128/workerapp:v${env.BUILD_ID}"
-            }            
+        stage('Docker-Build_&_Push') {            
             agent any
+            environment {
+                DOCKER_IMAGE = "raju2128/workerapp:v${BUILD_NUMBER}"
+            }            
             steps{
                 echo "build and push the docker worker image"
                 script{
