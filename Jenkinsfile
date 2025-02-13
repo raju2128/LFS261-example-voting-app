@@ -1,16 +1,12 @@
 pipeline {
-
   agent none
-
-  stages {
-    
+  stages {   
     stage('worker-build') {
       agent {
         docker {
           image 'maven:3.9.8-sapmachine-21'
           args '-v $HOME/.m2:/root/.m2'
         }
-
       }
       when {
         changeset '**/worker/**'
@@ -20,7 +16,6 @@ pipeline {
         dir(path: 'worker') {
           sh 'mvn compile'
         }
-
       }
     }
 
@@ -30,7 +25,6 @@ pipeline {
           image 'maven:3.9.8-sapmachine-21'
           args '-v $HOME/.m2:/root/.m2'
         }
-
       }
       when {
         changeset '**/worker/**'
@@ -40,7 +34,6 @@ pipeline {
         dir(path: 'worker') {
           sh 'mvn clean test'
         }
-
       }
     }
 
@@ -50,7 +43,6 @@ pipeline {
           image 'maven:3.9.8-sapmachine-21'
           args '-v $HOME/.m2:/root/.m2'
         }
-
       }
       when {
         branch 'master'
@@ -62,7 +54,6 @@ pipeline {
           sh 'mvn package -DskipTests'
           archiveArtifacts(artifacts: '**/target/*.jar', fingerprint: true)
         }
-
       }
     }
 
@@ -90,7 +81,6 @@ pipeline {
         docker {
           image 'node:22.4.0-alpine'
         }
-
       }
       when {
         changeset '**/result/**'
@@ -100,7 +90,6 @@ pipeline {
         dir(path: 'result') {
           sh 'npm install'
         }
-
       }
     }
 
@@ -109,7 +98,6 @@ pipeline {
         docker {
           image 'node:22.4.0-alpine'
         }
-
       }
       when {
         changeset '**/result/**'
@@ -120,7 +108,6 @@ pipeline {
           sh 'npm install'
           sh 'npm test'
         }
-
       }
     }
 
@@ -148,7 +135,6 @@ pipeline {
           image 'python:2.7.16-slim'
           args '--user root'
         }
-
       }
       when {
         changeset '**/vote/**'
@@ -158,7 +144,6 @@ pipeline {
         dir(path: 'vote') {
           sh 'pip install -r requirements.txt'
         }
-
       }
     }
 
@@ -168,7 +153,6 @@ pipeline {
           image 'python:2.7.16-slim'
           args '--user root'
         }
-
       }
       when {
         changeset '**/vote/**'
@@ -179,24 +163,22 @@ pipeline {
           sh 'pip install -r requirements.txt'
           sh 'nosetests -v'
         }
-
       }
     }
 
     stage('vote integration'){ 
-    agent any 
-    when{ 
-      changeset "**/vote/**" 
-      branch 'master' 
-    } 
-    steps{ 
-      echo 'Running Integration Tests on vote app' 
-      dir('vote'){ 
-        sh 'sh integration_test.sh' 
+      agent any 
+      when{ 
+        changeset "**/vote/**" 
+        branch 'master' 
+      } 
+      steps{ 
+        echo 'Running Integration Tests on vote app' 
+        dir('vote'){ 
+          sh 'sh integration_test.sh' 
+        } 
       } 
     } 
-} 
-
 
     stage('vote-docker-package') {
       agent any
@@ -210,10 +192,8 @@ pipeline {
             voteImage.push("latest")
           }
         }
-
       }
     }
-
 
     stage('deploy to dev') {
       agent any
@@ -224,8 +204,7 @@ pipeline {
         echo 'Deploy instavote app with docker compose'
         sh 'docker-compose up -d'
       }
-    }
-    
+    }   
   }
   
   post {
