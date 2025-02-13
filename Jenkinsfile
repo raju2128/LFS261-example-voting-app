@@ -8,9 +8,9 @@ pipeline {
           args '-v $HOME/.m2:/root/.m2'
         }
       }
-      // when {
-      //   changeset '**/worker/**'
-      // }
+      when {
+        changeset '**/worker/**'
+      }
 
       steps {
         echo 'Compiling worker app..'
@@ -27,9 +27,9 @@ pipeline {
           args '-v $HOME/.m2:/root/.m2'
         }
       }
-      // when {
-      //   changeset '**/worker/**'
-      // }
+      when {
+        changeset '**/worker/**'
+      }
 
       steps {
         echo 'Running Unit Tets on worker app.'
@@ -46,10 +46,10 @@ pipeline {
           args '-v $HOME/.m2:/root/.m2'
         }
       }
-      // when {
-      //   branch 'master'
-      //   changeset '**/worker/**'
-      // }
+      when {
+        branch 'master'
+        changeset '**/worker/**'
+      }
 
       steps {
         echo 'Packaging worker app'
@@ -62,10 +62,10 @@ pipeline {
 
     stage('worker-docker-package') {
       agent any
-      // when {
-      //   changeset '**/worker/**'
-      //   branch 'master'
-      // }
+      when {
+        changeset '**/worker/**'
+        branch 'master'
+      }
 
       steps {
         echo 'Packaging worker app with docker'
@@ -86,9 +86,9 @@ pipeline {
           image 'node:22.4.0-alpine'
         }
       }
-      // when {
-      //   changeset '**/result/**'
-      // }
+      when {
+        changeset '**/result/**'
+      }
 
       steps {
         echo 'Compiling result app..'
@@ -104,9 +104,9 @@ pipeline {
           image 'node:22.4.0-alpine'
         }
       }
-      // when {
-      //   changeset '**/result/**'
-      // }
+      when {
+        changeset '**/result/**'
+      }
 
       steps {
         echo 'Running Unit Tests on result app..'
@@ -119,10 +119,10 @@ pipeline {
 
     stage('result-docker-package') {
       agent any
-      // when {
-      //   changeset '**/result/**'
-      //   branch 'master'
-      // }
+      when {
+        changeset '**/result/**'
+        branch 'master'
+      }
 
       steps {
         echo 'Packaging result app with docker'
@@ -143,9 +143,9 @@ pipeline {
           args '--user root'
         }
       }
-      // when {
-      //   changeset '**/vote/**'
-      // }
+      when {
+        changeset '**/vote/**'
+      }
 
       steps {
         echo 'Compiling vote app.'
@@ -162,9 +162,9 @@ pipeline {
           args '--user root'
         }
       }
-      // when {
-      //   changeset '**/vote/**'
-      // }
+      when {
+        changeset '**/vote/**'
+      }
       
       steps {
         echo 'Running Unit Tests on vote app.'
@@ -177,10 +177,10 @@ pipeline {
 
     stage('vote integration'){ 
       agent any 
-      // when{ 
-      //   changeset "**/vote/**" 
-      //   branch 'master' 
-      // }
+      when{ 
+        changeset "**/vote/**" 
+        branch 'master' 
+      }
 
       steps{ 
         echo 'Running Integration Tests on vote app' 
@@ -192,10 +192,10 @@ pipeline {
 
     stage('vote-docker-package') {
       agent any
-      // when {
-      //   changeset '**/result/**'
-      //   branch 'master'
-      // }
+      when {
+        changeset '**/result/**'
+        branch 'master'
+      }
 
       steps {
         echo 'Packaging vote app with docker'
@@ -212,9 +212,9 @@ pipeline {
 
     stage('deploy to dev') {
       agent any
-      // when {
-      //   branch 'master'
-      // }
+      when {
+        branch 'master'
+      }
 
       steps {
         echo 'Deploy instavote app with docker compose'
