@@ -50,7 +50,6 @@ pipeline {
             echo 'Pipeline for vote is complete'
         }
     }
-
 } 
 
 
