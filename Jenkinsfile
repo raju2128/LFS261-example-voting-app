@@ -239,6 +239,9 @@ pipeline {
                 // true = set pipeline to UNSTABLE, false = don't
                 waitForQualityGate abortPipeline: true
             }
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh "exit 1"
+            }
         }
     }
 
